@@ -1,0 +1,27 @@
+==== CONFIGS ====		
+{
+    "base_path": "c:\\np2024-1\\np2024\\src\\main\\java\\np\\np2024\\np2024",
+    "out": "c:\\np2024-1\\np2024\\src\\main\\java\\np\\np2024\\np2024\\javadoc",
+    "javadoc_executable": "C:\\Program Files\\Java\\jdk-18\\bin\\javadoc.exe",
+    "exclude": [],
+    "raw_params": ""
+}
+
+==== COMMAND ====
+"C:\Program Files\Java\jdk-18\bin\javadoc.exe" 
+	-sourcepath "c:\np2024-1\np2024\src\main\java\np\np2024\np2024" 
+	-d "c:\np2024-1\np2024\src\main\java\np\np2024\np2024\javadoc" 
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\controllers\env.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\app\allergens.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\app\NutritionalValues.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\app\versions.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\Customer.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\Ingredients.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\models\Products.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\Np2024Application.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\repository\CustomerRepository.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\repository\IngredientsRepository.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\repository\ProductsRepository.java"
+	"c:\np2024-1\np2024\src\main\java\np\np2024\np2024\ServletInitializer.java"
+
+
