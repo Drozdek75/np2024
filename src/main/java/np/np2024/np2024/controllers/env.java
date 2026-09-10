@@ -5,26 +5,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import np.np2024.np2024.models.Customer;
 import np.np2024.np2024.models.IngredientType;
-import np.np2024.np2024.models.Ingredients;
+import np.np2024.np2024.models.Ingredient;
+import np.np2024.np2024.models.Orders;
 import np.np2024.np2024.models.Products;
-import np.np2024.np2024.models.order.OrderProduct;
-import np.np2024.np2024.models.order.Orders;
-import np.np2024.np2024.models.order.orderDetail;
-import np.np2024.np2024.models.order.pojo.OrderStream;
 import np.np2024.np2024.repository.CustomerRepository;
 import np.np2024.np2024.repository.IngredientTypeRepository;
 import np.np2024.np2024.repository.IngredientsRepository;
 import np.np2024.np2024.repository.ProductsRepository;
-import np.np2024.np2024.repository.orderDetailRepository;
-import np.np2024.np2024.repository.orderProductRepository;
 import np.np2024.np2024.repository.orderRepository;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +28,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.PostMapping;
+
+import np.np2024.np2024.models.massive.massiveAlias;
 
 @RestController
 @RequestMapping("/env")
@@ -52,12 +48,6 @@ public class env {
 
     @Autowired
     private orderRepository orderRepo;
-
-    @Autowired
-    private orderProductRepository orderProductRepo;
-
-    @Autowired
-    private orderDetailRepository orderDetailRepo;
 
     @Autowired
     private IngredientTypeRepository ingredient_type_repo;
@@ -109,7 +99,7 @@ public class env {
             Products prod = op_product.get();
             System.out.println(prod.getName());
 
-            for (Ingredients ing : prod.getIngredientsList()) {
+            for (Ingredient ing : prod.getIngredientsList()) {
                 System.out.println(ing.name);
             }
             return ResponseEntity.ok().body(prod);
@@ -118,11 +108,10 @@ public class env {
     }
 
     // INGREDIENTS
-
     @GetMapping("/getAllIngredients")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<List<Ingredients>> getAllIngrediets() {
-        List<Ingredients> ret = ingredient_repo.findAll();
+    public ResponseEntity<List<Ingredient>> getAllIngrediets() {
+        List<Ingredient> ret = ingredient_repo.findAll();
         return ResponseEntity.ok().body(ret);
     }
 
@@ -135,16 +124,7 @@ public class env {
     }
 
     // *************************************************************** */
-
     // ORDINI
-
-    @PostMapping(value = "/saveOrder", produces = "application/json")
-    public ResponseEntity<OrderStream> saveOrder(@RequestBody OrderStream os) {
-
-        return ResponseEntity.ok().body(null);
-
-    }
-
     @GetMapping(value = "/addOrder")
     public ResponseEntity<Long> addOrder() {
         Orders order1 = new Orders();
@@ -178,12 +158,7 @@ public class env {
     }
 
     // ****************************************************************** */
-
     // * ADD COUSTOMER *****************************************************/
-
-
-     
-
     @GetMapping("/getAllCustomer")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<Customer>> getAllCostumer() {
@@ -194,117 +169,34 @@ public class env {
 
     }
 
-    @GetMapping("/addNewCustomerAlias/{alias}")
+    @PostMapping("/addMassiveAlias")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<boolean> addNewCustomerAlias(@PathVariable("alias") String alias) {
-        
-       return ResponseEntity.ok().body(true);
-    }
-
-
-    @GetMapping("/addNewAlias/{alias}")
-    public void addNewCoustomerAlias(@PathVariable String alias) {
-        Customer cust = custonerRepo.findById(2L).get();
-        // System.out.println(cust.short_name);
-
-        /*
-         * Products p1 = productsRepo.findById(14l).get();
-         * Ingredients ing1 = ingredient_repo.findById(8l).get();
-         * Ingredients ing2 = ingredient_repo.findById(9l).get();
-         * Ingredients ing3 = ingredient_repo.findById(10l).get();
-         * 
-         * Orders ord1 = new Orders();
-         * ord1.setCreation_time(new GregorianCalendar().getTimeInMillis());
-         * ord1.setOrder_time(new GregorianCalendar().getTimeInMillis());
-         * ord1.setCustomer(cust);
-         * 
-         * orderRepo.save(ord1);
-         * 
-         * // Orders orderSe= orderRepo.findById(3l).get();
-         * 
-         * OrderProduct op =new OrderProduct();
-         * op.setOrders(ord1);
-         * op.setProduct(p1);
-         * op.setQuantity(4);
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * orderDetail od1 = new orderDetail();
-         * od1.setIngredient(ing1);
-         * od1.setType(1);
-         * od1.setOrder_product_id(op);
-         * 
-         * orderDetailRepo.save(od1);
-         * orderDetail od2 = new orderDetail();
-         * od2.setIngredient(ing2);
-         * od2.setType(-1);
-         * od2.setOrder_product_id(op);
-         * orderDetailRepo.save(od2);
-         * 
-         * orderDetail od3 = new orderDetail();
-         * od3.setIngredient(ing3);
-         * od3.setType(1);
-         * od3.setOrder_product_id(op);
-         * orderDetailRepo.save(od3);
-         * 
-         * Set<orderDetail> setOrder = new HashSet<>();
-         * setOrder.add(od1);
-         * setOrder.add(od2);
-         * setOrder.add(od3);
-         * op.setOrderDetailList(setOrder);
-         * 
-         * orderProductRepo.save(op);
-         */
-
-        List<Orders> lstOrder = orderRepo.findAll();
-
-        lstOrder.forEach((order) -> {
-            System.out.println(order.getCustomer().short_name);
-            System.out.println("---------------------------------");
-            order.getOrder_product().forEach((e) -> {
-
-                System.out.println(e.getQuantity() + ") " + e.getProduct().getName());
-
-                // System.out.println(e.getOrderDetailList().size());
-
-                e.getOrderDetailList().forEach((ing) -> {
-                    System.out.println("    " + ing.getType() + " " + ing.getIngredient().getName());
-                });
-
-            }
-
-            );
-            System.out.println("---------------------------------");
-
+    public void addMassiveAlias(@RequestBody() massiveAlias aliasList) {
+        aliasList.alias.forEach((el) -> {
+            System.out.println(el);
+            custonerRepo.save(new Customer(el));
         });
 
-        /*
-         * Orders ord2 = orderRepo.findById(3l).get();
-         * 
-         * ord2.getOrder_product().forEach((e)-> {
-         * System.out.println(e.getQuantity()+") "+ e.getProduct().getName());
-         * 
-         * // System.out.println(e.getOrderDetailList().size());
-         * 
-         * e.getOrderDetailList().forEach((ing)-> {
-         * System.out.println("    "+ing.getType()+" "+ing.getIngredient().getName());
-         * });
-         * 
-         * }
-         * 
-         * );
-         */
-
     }
 
-    /*********************************************************************** */
+    @GetMapping("/addNewCustomerAlias/{alias}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public void addNewCustomerAlias(@PathVariable String alias
+    ) {
 
-    /** ORDERS*************************************************************** */
+        Customer customer = new Customer(alias);
+        custonerRepo.save(customer);
 
-    /**********************************************************************  */
+        // return ResponseEntity.ok().body(true);
+    }
 
+    /**
+     * *********************************************************************
+     */
+    /**
+     * ORDERS***************************************************************
+     */
+    /**
+     * ********************************************************************
+     */
 }

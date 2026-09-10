@@ -7,22 +7,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import np.np2024.np2024.models.order.Orders;
 
 @Entity
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    public String first_name;
+    public String firstName;
 
-    public String last_name;
+    public String lastName;
 
-    public String short_name;
+    public String shortName;
 
-    public String telephone_number;
+    public String telephoneNumber;
 
     public String address;
 
@@ -32,7 +31,7 @@ public class Customer {
 
     public String note;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
 
@@ -40,15 +39,15 @@ public class Customer {
     }
 
     public Customer(String shortName) {
-        this.short_name = shortName;
+        this.shortName = shortName;
     }
 
     public Customer(String first_name, String last_name, String short_name, String telephone_number, String address,
             String cf, String piva, String note) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.short_name = short_name;
-        this.telephone_number = telephone_number;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.shortName = short_name;
+        this.telephoneNumber = telephone_number;
         this.address = address;
         this.cf = cf;
         this.piva = piva;
@@ -60,35 +59,35 @@ public class Customer {
     }
 
     public String getFirst_name() {
-        return this.first_name;
+        return this.firstName;
     }
 
     public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+        this.firstName = first_name;
     }
 
     public String getLast_name() {
-        return this.last_name;
+        return this.lastName;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastName = last_name;
     }
 
     public String getShort_name() {
-        return this.short_name;
+        return this.shortName;
     }
 
     public void setShort_name(String short_name) {
-        this.short_name = short_name;
+        this.shortName = short_name;
     }
 
     public String getTelephone_number() {
-        return this.telephone_number;
+        return this.telephoneNumber;
     }
 
     public void setTelephone_number(String telephone_number) {
-        this.telephone_number = telephone_number;
+        this.telephoneNumber = telephone_number;
     }
 
     public String getAddress() {

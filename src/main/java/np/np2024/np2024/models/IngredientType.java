@@ -20,15 +20,18 @@ public class IngredientType {
 
     private String name;
 
+    private String note;
+
     @JsonIgnore
     @OneToMany(mappedBy = "ingredientType")
-    private List<Ingredients> listIngredients = new ArrayList<>();
+    private List<Ingredient> listIngredients = new ArrayList<>();
 
     public IngredientType() {
     }
 
-    public IngredientType(String name) {
+    public IngredientType(String name, String note) {
         this.name = name;
+        this.note = note;
     }
 
     public Integer getId() {
@@ -43,12 +46,20 @@ public class IngredientType {
         this.name = name;
     }
 
-    public List<Ingredients> getListIngredients() {
+    public List<Ingredient> getListIngredients() {
         return this.listIngredients;
     }
 
-    public void setListIngredients(List<Ingredients> listIngredients) {
+    public void setListIngredients(List<Ingredient> listIngredients) {
         this.listIngredients = listIngredients;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getNote() {
+        return this.note;
     }
 
 }

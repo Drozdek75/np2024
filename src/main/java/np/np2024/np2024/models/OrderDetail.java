@@ -1,38 +1,53 @@
-package np.np2024.np2024.models.order.pojo;
+package np.np2024.np2024.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class OrderDetail {
 
-    private long prgressivo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private long progressivo;
     private String name;
     private double price;
     private int qt;
     private double totale;
+
+    @ManyToOne()
+    @JoinColumn(name = "cod_product")
+    private Products codProduct;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_detail_id")
     private List<orderDetailFF> odd = new ArrayList<>();
+
+    @ManyToOne
+    private Orders orderCod;
 
     public OrderDetail() {
     }
 
     public OrderDetail(long prgressivo, long id, String name, double price, int qt, double totale,
-            List<orderDetailFF> odd) {
-        this.prgressivo = prgressivo;
+            List<orderDetailFF> odd, Products prod) {
+        this.progressivo = prgressivo;
         this.id = id;
         this.name = name;
         this.price = price;
         this.qt = qt;
         this.totale = totale;
         this.odd = odd;
-    }
-
-    public long getPrgressivo() {
-        return this.prgressivo;
-    }
-
-    public void setPrgressivo(long prgressivo) {
-        this.prgressivo = prgressivo;
+        this.codProduct = prod;
     }
 
     public long getId() {
@@ -81,6 +96,30 @@ public class OrderDetail {
 
     public void setOdd(List<orderDetailFF> odd) {
         this.odd = odd;
+    }
+
+    public Orders getOrderCod() {
+        return orderCod;
+    }
+
+    public void setOrderCod(Orders orderCod) {
+        this.orderCod = orderCod;
+    }
+
+    public Products getCodProduct() {
+        return codProduct;
+    }
+
+    public void setCodProduct(Products codProduct) {
+        this.codProduct = codProduct;
+    }
+
+    public long getProgressivo() {
+        return progressivo;
+    }
+
+    public void setProgressivo(long progressivo) {
+        this.progressivo = progressivo;
     }
 
 }

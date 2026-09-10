@@ -1,6 +1,8 @@
-package np.np2024.np2024.models.order;
+package np.np2024.np2024.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,11 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import np.np2024.np2024.models.Customer;
-import np.np2024.np2024.models.Products;
 
 @Entity
 public class Orders {
@@ -28,33 +27,24 @@ public class Orders {
 
     private long creation_time;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-   
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-    private Set<OrderProduct> order_product = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<OrderDetail> orderDet = new ArrayList<>();
 
     public Orders() {
     }
 
-    public Orders(long order_time, long creation_time, Customer customer) {
+    public Orders(long order_time, long creation_time, Customer customer, List<OrderDetail> det) {
 
         this.order_time = order_time;
         this.creation_time = creation_time;
-        // this.customer = customer;
+        this.orderDet = det;
+        this.customer = customer;
     }
-
-
-    public void addProductInOrder(OrderProduct order_product) {
-        this.order_product.add(order_product);
-    }
-
-    public void removeProductInOrder(OrderProduct order_product) {
-        this.order_product.remove(order_product);
-    }
-
 
     public Long getId() {
         return this.id;
@@ -84,12 +74,12 @@ public class Orders {
         this.customer = customer;
     }
 
-    public Set<OrderProduct> getOrder_product() {
-        return this.order_product;
+    public List<OrderDetail> getOrderDet() {
+        return orderDet;
     }
 
-    public void setOrder_product(Set<OrderProduct> order_product) {
-        this.order_product = order_product;
+    public void setOrderDet(List<OrderDetail> orderDet) {
+        this.orderDet = orderDet;
     }
 
 }

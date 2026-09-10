@@ -6,7 +6,6 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +15,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import np.np2024.np2024.models.app.NutritionalValues;
 import np.np2024.np2024.models.app.allergens;
-import np.np2024.np2024.models.order.orderDetail;
 
 @Entity
-public class Ingredients {
+public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,35 +35,33 @@ public class Ingredients {
 
     public String notes;
 
-    
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE }, mappedBy = "ingredientsList")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+        CascadeType.MERGE}, mappedBy = "ingredientsList")
     @JsonIgnore
     private Set<Products> productsList = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "ingredients_allergens", joinColumns = {
-            @JoinColumn(name = "cod_ingredient") }, inverseJoinColumns = { @JoinColumn(name = "cod_allergen") })
+        @JoinColumn(name = "cod_ingredient")}, inverseJoinColumns = {
+        @JoinColumn(name = "cod_allergen")})
     private Set<allergens> allergenList = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "ingredients_nutritional_value", joinColumns = {
-            @JoinColumn(name = "cod_ingredient") }, inverseJoinColumns = {
-                    @JoinColumn(name = "cod_nutritional_values") })
+        @JoinColumn(name = "cod_ingredient")}, inverseJoinColumns = {
+        @JoinColumn(name = "cod_nutritional_values")})
     private Set<NutritionalValues> nutritionalValuesList = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "ingredientTypeID")
     private IngredientType ingredientType;
 
-    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
-    private Set<orderDetail> orderDetailF = new HashSet<>();
-
-    public Ingredients() {
+    //@OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    //private Set<orderDetail> orderDetailF = new HashSet<>();
+    public Ingredient() {
     }
 
-    public Ingredients(String name, String description, double price, double cost, String notes,
+    public Ingredient(String name, String description, double price, double cost, String notes,
             Set<allergens> listAllergens, Set<NutritionalValues> listNutritional) {
         this.name = name;
         this.description = description;
@@ -145,14 +140,13 @@ public class Ingredients {
         this.nutritionalValuesList = nutritionalValuesList;
     }
 
-    public Set<orderDetail> getOrderDetailF() {
+    /*public Set<orderDetail> getOrderDetailF() {
         return this.orderDetailF;
     }
 
     public void setOrderDetailF(Set<orderDetail> orderDetailF) {
         this.orderDetailF = orderDetailF;
-    }
-
+    }*/
     public IngredientType getIngredientType() {
         return this.ingredientType;
     }

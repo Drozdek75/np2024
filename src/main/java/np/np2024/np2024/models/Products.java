@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import np.np2024.np2024.models.order.OrderProduct;
 
 @Entity
 public class Products {
@@ -38,19 +37,20 @@ public class Products {
 
     private long version;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "products_ingredients", joinColumns = {
-            @JoinColumn(name = "cod_product") }, inverseJoinColumns = { @JoinColumn(name = "cod_ingredient") })
-    private Set<Ingredients> ingredientsList = new HashSet<>();
+        @JoinColumn(name = "cod_product")}, inverseJoinColumns = {
+        @JoinColumn(name = "cod_ingredient")})
+    private Set<Ingredient> ingredientsList = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<OrderProduct> product_order = new HashSet<>();
+    @OneToMany(mappedBy = "codProduct", cascade = CascadeType.ALL)
+    private Set<OrderDetail> product_order = new HashSet<>();
 
     public Products() {
     }
 
-    public Products(String name, String description, double price, double cost, String notes, long version, String type) {
+    public Products(String name, String description, double price, double cost, String notes, long version, String type, Set<OrderDetail> product_order) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -58,6 +58,7 @@ public class Products {
         this.notes = notes;
         this.version = version;
         this.type = type;
+        this.product_order = product_order;
     }
 
     public Long getId() {
@@ -112,22 +113,21 @@ public class Products {
         this.version = version;
     }
 
-    public Set<Ingredients> getIngredientsList() {
+    public Set<Ingredient> getIngredientsList() {
         return this.ingredientsList;
     }
 
-    public void setIngredientsList(Set<Ingredients> ingredientsList) {
+    public void setIngredientsList(Set<Ingredient> ingredientsList) {
         this.ingredientsList = ingredientsList;
     }
 
-    public Set<OrderProduct> getProduct_order() {
+    /*  public Set<OrderProduct> getProduct_order() {
         return this.product_order;
     }
 
     public void setProduct_order(Set<OrderProduct> product_order) {
         this.product_order = product_order;
-    }
-  
+    }*/
     public String getType() {
         return this.type;
     }
@@ -136,6 +136,12 @@ public class Products {
         this.type = type;
     }
 
+    public Set<OrderDetail> getProduct_order() {
+        return product_order;
+    }
 
+    public void setProduct_order(Set<OrderDetail> product_order) {
+        this.product_order = product_order;
+    }
 
 }
